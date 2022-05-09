@@ -1,9 +1,58 @@
-name: 'Slack Notify - DataMa'
+name: 'Slack Notify'
 description: 'This action will send a notification to Slack'
-author: 'django-datama'
+inputs:
+  web-hook-url:  # id of input
+    description: 'The url to use for slack web-hook'
+    required: true
+  user-name:  # id of input
+    description: 'Which user launched the build'
+    required: false
+    default: 'DataMa-Solutions'
+  impact:  # id of input
+    description: 'The impact of the release'
+    required: false
+    default: 'None'
+  commit-url:  # id of input
+    description: 'The url to use for commit format ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/GITHUB_SHA)'
+    required: false
+    default: 'None'
+  pr-url:  # id of input
+    description: 'The url to use for pr format ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/pull/$github.event.number)'
+    required: false
+    default: 'None'
+  status:  # id of input
+    description: 'The status of the release'
+    required: false
+    default: 'success'
+  scope:  # id of input
+    description: 'The scope of the release'
+    required: false
+    default: 'staging'
+  msg:
+    description: 'The message to use'
+    required: true
+    default: 'Building latest changes'
+
+author: 'DataMa-Solutions'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/django-datama/action-slack-notify:v2.2.0'
+  image: 'docker://ghcr.io/datama-solutions/action-slack-notify:v1.0.0'
+  args:
+    - "-w"
+    - ${{ inputs.web-hook-url }}
+    - "--user"
+    - ${{ inputs.user-name }}
+    - "--impact"
+    - ${{ inputs.impact }}
+    - "--status"
+    - ${{ inputs.status }}
+    - "--commit-url"
+    - ${{ inputs.commit-url }}
+    - "--pull-request-url"
+    - ${{ inputs.pr-url }}
+    - "--scope"
+    - ${{ inputs.scope }}
+    - ${{ inputs.msg }}
 branding:
   icon: 'bell'
   color: 'green'

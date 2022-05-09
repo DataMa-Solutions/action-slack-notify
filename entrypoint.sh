@@ -26,5 +26,5 @@ if [[ -d "$custom_path" ]]; then
     rsync -av "$custom_path/" /
     chmod +x /*.sh
 fi
-
-bash "$main_script"
+# 
+# bash "$main_script"
