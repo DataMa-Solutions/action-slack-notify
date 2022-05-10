@@ -163,4 +163,6 @@ if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 		"url": COMMIT_URL,
 		"action_id": "button-action"
 	}
+print(payload)
+print(json.dumps(payload))
 result = requests.post(WEBHOOK_URL,json.dumps(payload)).json()
