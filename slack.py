@@ -72,7 +72,7 @@ if(ACTION is None or ACTION.strip() == ""):
 if(REPOSITORY_URL is not None):
 	regex = re.compile(r"(#\d+)\ ",re.MULTILINE | re.IGNORECASE)
 	for hashtag in re.findall(regex,ACTION):
-		ACTION = ACTION.replace(hashtag,"<{0}/pull/{1}|{0}> ".format(REPOSITORY_URL,hashtag.strip('#')))
+		ACTION = ACTION.replace(hashtag,"<{0}/pull/{1}|{2}> ".format(REPOSITORY_URL,hashtag.strip('#'),hashtag))
 
 IMG_URL = "{}/{}?size=50".format(GITHUB_AVATAR_SERVER_URL,USER)
 
