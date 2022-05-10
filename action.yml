@@ -54,6 +54,8 @@ runs:
     - ${{ inputs.commit-url }}
     - "--pull-request-url"
     - ${{ inputs.pr-url }}
+    - "--repository-url"
+    - ${{ inputs.repository-url }}
     - "--scope"
     - ${{ inputs.scope }}
     - ${{ inputs.msg }}
