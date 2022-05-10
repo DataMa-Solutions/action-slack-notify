@@ -36,7 +36,7 @@ parser.add_argument("-p", "--pull-request-url", help="$GITHUB_SERVER_URL/$GITHUB
 parser.add_argument("-w", "--web-hook", required=True, help="Webhook url")
 parser.add_argument("-r", "--repository-url", required=False, help="Repository url")
 parser.add_argument("-s", "--status", default="failure", choices=['failure', 'cancelled', 'success'], help="Status")
-parser.add_argument("-k", "--scope", default="staging", choices=['staging', 'prod', 'temporary'], help="Scope")
+parser.add_argument("-k", "--scope", default="staging", help="Scope")
 parser.add_argument("-v", "--verbose", action="store_true", help="increase verbosity")
 parser.add_argument("action", help="Action message")
 
