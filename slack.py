@@ -26,6 +26,7 @@ import requests
 import json
 import argparse
 import sys
+import re
  
 parser = argparse.ArgumentParser(description="Just an example",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-u", "--user", required=False, help="User name")
@@ -33,6 +34,7 @@ parser.add_argument("-i", "--impact", help="Impact")
 parser.add_argument("-c", "--commit-url", help="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/GITHUB_SHA")
 parser.add_argument("-p", "--pull-request-url", help="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/pull/$github.event.number")
 parser.add_argument("-w", "--web-hook", required=True, help="Webhook url")
+parser.add_argument("-r", "--repository-url", required=False, help="Repository url")
 parser.add_argument("-s", "--status", default="failure", choices=['failure', 'cancelled', 'success'], help="Status")
 parser.add_argument("-k", "--scope", default="staging", choices=['staging', 'prod', 'temporary'], help="Scope")
 parser.add_argument("-v", "--verbose", action="store_true", help="increase verbosity")
@@ -56,6 +58,7 @@ IMPACT = config.get("impact")
 SCOPE = config.get("scope","staging")
 STATUS_CODE = config.get("status","failure")
 COMMIT_URL = config.get("commit_url",None)
+REPOSITORY_URL = config.get("repository_url",None)
 PR_URL = config.get("pull-request-url",None)
 if(IMPACT is None):
 	IMPACT = "None"
@@ -64,6 +67,12 @@ if(STATUS_CODE == "cancelled"):
 	STATUS = ":large_orange_circle:"
 if(STATUS_CODE == "success"):
 	STATUS = ":launched:"
+if(ACTION is None or ACTION.strip() == ""):
+	ACTION = "Building latest changes"
+if(REPOSITORY_URL is not None):
+	regex = re.compile(r"(#\d+)\ ",re.MULTILINE | re.IGNORECASE)
+	for hashtag in re.findall(regex,ACTION):
+		ACTION.replace(hashtag,"<{0}/pull/{1}|{0}> ".format(REPOSITORY_URL,hashtag.strip('#')))
 
 IMG_URL = "{}/{}?size=50".format(GITHUB_AVATAR_SERVER_URL,USER)
 
@@ -91,14 +100,22 @@ payload = {
 			"type": "context",
 			"elements": [
 				{
+					"type": "mrkdwn",
+					"text": "This push triggers a *build on _google cloud_*. Next you will see *two build* status from GCP (Something like _Cloud Build [...] SUCCESS_) with it's success in *less than 10mn*.\n The last one is the App's build status."
+				}
+			]
+		},
+		{
+			"type": "context",
+			"elements": [
+				{
 					"type": "image",
 					"image_url": IMG_URL,
 					"alt_text": "{}".format(USER)
 				},
 				{
-					"type": "plain_text",
-					"text": "Launched by {}".format(USER),
-					"emoji": True
+					"type": "mrkdwn",
+					"text": "Launched by *{}*".format(USER),
 				}
 			]
 		},

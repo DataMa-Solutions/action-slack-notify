@@ -16,6 +16,10 @@ inputs:
     description: 'The url to use for commit format ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/GITHUB_SHA)'
     required: false
     default: 'None'
+  repository-url:  # id of input
+    description: 'The url to use for commit format (https://github.com/$github.repository)'
+    required: false
+    default: 'None'
   pr-url:  # id of input
     description: 'The url to use for pr format ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/pull/$github.event.number)'
     required: false
