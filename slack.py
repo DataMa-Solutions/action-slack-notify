@@ -66,13 +66,13 @@ STATUS = ":x:"
 if(STATUS_CODE == "cancelled"):
 	STATUS = ":large_orange_circle:"
 if(STATUS_CODE == "success"):
-	STATUS = ":launched:"
+	STATUS = ":rocket:"
 if(ACTION is None or ACTION.strip() == ""):
 	ACTION = "Building latest changes"
 if(REPOSITORY_URL is not None):
 	regex = re.compile(r"(#\d+)\ ",re.MULTILINE | re.IGNORECASE)
 	for hashtag in re.findall(regex,ACTION):
-		ACTION.replace(hashtag,"<{0}/pull/{1}|{0}> ".format(REPOSITORY_URL,hashtag.strip('#')))
+		ACTION = ACTION.replace(hashtag,"<{0}/pull/{1}|{0}> ".format(REPOSITORY_URL,hashtag.strip('#')))
 
 IMG_URL = "{}/{}?size=50".format(GITHUB_AVATAR_SERVER_URL,USER)
 
