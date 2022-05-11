@@ -27,7 +27,6 @@ import json
 import argparse
 import sys
 import re
-import quote
  
 parser = argparse.ArgumentParser(description="Just an example",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-u", "--user", required=False, help="User name")
@@ -77,6 +76,31 @@ if(REPOSITORY_URL is not None):
 
 IMG_URL = "{}/{}?size=50".format(GITHUB_AVATAR_SERVER_URL,USER)
 
+## function that gets the random quote
+def get_random_quote():
+	q = {"author":"Scott Belsy, Behance Co-Founder" , "quote":"It's not about ideas. It's about making ideas happen."}
+	try:
+		## making the get request
+		response = requests.get("https://quote-garden.herokuapp.com/api/v3/quotes/random?genre=motivational")
+		if response.status_code == 200:
+			## extracting the core data
+			json_data = response.json()
+			data = json_data['data']
+			## getting the quote from the data
+			quote = data[0]['quoteText']
+			author = data[0]['quoteAuthor']
+			q = {
+				"author":author,
+				"quote":quote
+			}
+		else:
+			print("Error while getting quote")
+	except:
+		print("Something went wrong! Try Again!")
+	return q
+
+RANDOM_QUOTE = get_random_quote()
+
 payload = {
 	"blocks": [
 		{
@@ -103,6 +127,16 @@ payload = {
 				{
 					"type": "mrkdwn",
 					"text": "This push triggers a *build on _google cloud_*. Next you will see *two build* status from GCP (Something like _Cloud Build [...] SUCCESS_) with it's success in *less than 10mn*.\n The last one is the App's build status."
+				}
+			]
+		},
+		{
+			"type": "context",
+			"elements": [
+				{
+					"type": "plain_text",
+					"text": ":thought_balloon: *{}* , {}".format(RANDOM_QUOTE["author"],RANDOM_QUOTE["quote"]),
+					"emoji": True
 				}
 			]
 		},
@@ -180,7 +214,7 @@ if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 print(payload)
 print(json.dumps(payload))
 
-result = requests.post(WEBHOOK_URL,json.dumps(payload))
+# result = requests.post(WEBHOOK_URL,json.dumps(payload))
 if(result.status_code == 200):
 	sys.exit(0)
 else:
