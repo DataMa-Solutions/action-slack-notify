@@ -98,8 +98,50 @@ def get_random_quote():
 	except:
 		print("Something went wrong! Try Again!")
 	return q
+## function that gets the random quote
+def get_got_quote():
+	q = {"author":"Hodor" , "quote":"Hold the door !"}
+	try:
+		## making the get request
+		response = requests.get("https://game-of-thrones-quotes.herokuapp.com/v1/random")
+		if response.status_code == 200:
+			## extracting the core data
+			json_data = response.json()
+			data = json_data
+			## getting the quote from the data
+			quote = data["sentence"]
+			author = data["character"]["name"]
+			slug = data["character"]["slug"]
+			q = {
+				"author":author,
+				"quote":quote
+			}
+			emojii_assoc = {"arya" : ":arya:",
+							"bran" : ":bran:",
+							"brienne" : ":brienne:",
+							"cersei" : ":cersei:",
+							"daenerys" : ":daenerys:",
+							"jaime" : ":jaime:",
+							"jon" : ":johnsnow:",
+							"samwell" : ":samtarly:",
+							"sansa" : ":sansa:",
+							"theon" : ":theon:",
+							"tyrion" : ":tyronl:",
+							"varys" : ":varys:",
+							"other" : ":iron_throne:"
+							}
+			if(slug in emojii_assoc.keys()):
+				q["quote"] = "{0} *{1}* , « _{2}_ »".format(emojii_assoc[slug],author,quote)
+			else:
+				q["quote"] = "{0} *{1}* , « _{2}_ »".format(emojii_assoc["other"],author,quote)
+		else:
+			print("Error while getting quote")
+	except:
+		print("Something went wrong! Try Again!")
+	return q
 
 RANDOM_QUOTE = get_random_quote()
+RANDOM_GOT_QUOTE = get_got_quote()["quote"]
 
 payload = {
 	"text":":rocket::rocket: Building on {}".format(SCOPE),
@@ -136,7 +178,7 @@ payload = {
 			"elements": [
 				{
 					"type": "mrkdwn",
-					"text": ":thought_balloon: *{}* , « _{}_ »".format(RANDOM_QUOTE["author"],RANDOM_QUOTE["quote"])
+					"text": ":thought_balloon: *{0}* , « _{1}_ »\n{2}".format(RANDOM_QUOTE["author"],RANDOM_QUOTE["quote"],RANDOM_GOT_QUOTE)
 				}
 			]
 		},
