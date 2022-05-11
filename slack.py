@@ -102,6 +102,7 @@ def get_random_quote():
 RANDOM_QUOTE = get_random_quote()
 
 payload = {
+	"text":":rocket::rocket: Building on {}".format(SCOPE),
 	"blocks": [
 		{
 			"type": "header",
@@ -152,41 +153,7 @@ payload = {
 					"text": "Launched by *{}*".format(USER),
 				}
 			]
-		},
-		# {
-		# 	"type": "actions",
-		# 	"elements": [
-		# 		{
-		# 			"type": "button",
-		# 			"text": {
-		# 				"type": "plain_text",
-		# 				"text": "Open Pull request",
-		# 				"emoji": True
-		# 			},
-		# 			"style": "primary",
-		# 			"value": "done"
-		# 		},
-		# 		{
-		# 			"type": "button",
-		# 			"text": {
-		# 				"type": "plain_text",
-		# 				"text": "Stop build",
-		# 				"emoji": True
-		# 			},
-		# 			"value": "default"
-		# 		},
-		# 		{
-		# 			"type": "button",
-		# 			"text": {
-		# 				"type": "plain_text",
-		# 				"text": ":x: Stop build",
-		# 				"emoji": True
-		# 			},
-		# 			"style": "danger",
-		# 			"value": "failed"
-		# 		}
-		# 	]
-		# }
+		}
 	]
 }
 
@@ -210,6 +177,8 @@ if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 		},
 		"url": COMMIT_URL,
 	}
+# print(payload)
+print(json.dumps(payload))
 
 result = requests.post(WEBHOOK_URL,json.dumps(payload))
 if(result.status_code == 200):
