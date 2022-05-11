@@ -210,10 +210,8 @@ if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 		},
 		"url": COMMIT_URL,
 	}
-print(payload)
-print(json.dumps(payload))
 
-# result = requests.post(WEBHOOK_URL,json.dumps(payload))
+result = requests.post(WEBHOOK_URL,json.dumps(payload))
 if(result.status_code == 200):
 	sys.exit(0)
 else:
