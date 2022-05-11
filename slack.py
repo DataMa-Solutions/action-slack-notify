@@ -134,9 +134,8 @@ payload = {
 			"type": "context",
 			"elements": [
 				{
-					"type": "plain_text",
-					"text": ":thought_balloon: *{}* , {}".format(RANDOM_QUOTE["author"],RANDOM_QUOTE["quote"]),
-					"emoji": True
+					"type": "mrkdwn",
+					"text": ":thought_balloon: *{}* , « _{}_ »".format(RANDOM_QUOTE["author"],RANDOM_QUOTE["quote"])
 				}
 			]
 		},
