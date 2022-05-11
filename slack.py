@@ -27,6 +27,7 @@ import json
 import argparse
 import sys
 import re
+import quote
  
 parser = argparse.ArgumentParser(description="Just an example",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-u", "--user", required=False, help="User name")
@@ -164,9 +165,7 @@ if(PR_URL is not None and PR_URL != 'None'):
 			"text": "Open Pull Request :point_right:",
 			"emoji": True
 		},
-		"value": "open_pr",
 		"url": PR_URL,
-		"action_id": "button-action"
 	}
 if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 	payload["blocks"][1]["accessory"] = {
@@ -176,9 +175,7 @@ if(COMMIT_URL is not None and COMMIT_URL != 'None'):
 			"text": ":eyes: Open commit",
 			"emoji": True
 		},
-		"value": "open_commit",
 		"url": COMMIT_URL,
-		"action_id": "button-action"
 	}
 print(payload)
 print(json.dumps(payload))

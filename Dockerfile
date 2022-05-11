@@ -9,6 +9,7 @@ LABEL "org.opencontainers.image.source"="https://github.com/DataMa-Solutions/act
 
 WORKDIR ${GOPATH}/src/github.com/DataMa-Solutions/action-slack-notify
 RUN pip3 install requests
+RUN pip3 install quote
 RUN chmod +x /*.py
 COPY slack.py /slack
 
