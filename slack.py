@@ -100,10 +100,10 @@ def get_random_quote():
 	return q
 ## function that gets the random quote
 def get_got_quote():
-	q = {"author":"Hodor" , "quote":"Hold the door !"}
+	q = {"author":"Hodor" , "quote":":hodor: *Hodor*, « _Hold the door !_ »"}
 	try:
 		## making the get request
-		response = requests.get("https://game-of-thrones-quotes.herokuapp.com/v1/random")
+		response = requests.get("https://api.gameofthronesquotes.xyz/v1/random")
 		if response.status_code == 200:
 			## extracting the core data
 			json_data = response.json()
@@ -128,6 +128,7 @@ def get_got_quote():
 							"theon" : ":theon:",
 							"tyrion" : ":tyronl:",
 							"varys" : ":varys:",
+							"baelish" : ":baelish:",
 							"other" : ":iron_throne:"
 							}
 			if(slug in emojii_assoc.keys()):
