@@ -12,6 +12,10 @@ inputs:
     description: 'The impact of the release'
     required: false
     default: 'None'
+  title:  # id of input
+    description: 'The title of the release'
+    required: false
+    default: 'Auto Build notification'
   commit-url:  # id of input
     description: 'The url to use for commit format ($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/GITHUB_SHA)'
     required: false
@@ -48,6 +52,8 @@ runs:
     - ${{ inputs.user-name }}
     - "--impact"
     - ${{ inputs.impact }}
+    - "--title"
+    - ${{ inputs.title }}
     - "--status"
     - ${{ inputs.status }}
     - "--commit-url"

@@ -38,6 +38,7 @@ parser.add_argument("-r", "--repository-url", required=False, help="Repository u
 parser.add_argument("-s", "--status", default="failure", choices=['failure', 'cancelled', 'success'], help="Status")
 parser.add_argument("-k", "--scope", default="staging", help="Scope")
 parser.add_argument("-v", "--verbose", action="store_true", help="increase verbosity")
+parser.add_argument("-t", "--title",  help="title of the message")
 parser.add_argument("action", help="Action message")
 
 GITHUB_AVATAR_SERVER_URL = "https://avatars.githubusercontent.com"
@@ -53,6 +54,7 @@ WEBHOOK_URL = config.get("web_hook") #"https://hooks.slack.com/services/TE9V7723
 USER = config.get("user","DataMa-Solutions")
 if(USER is None):
 	USER = "DataMa-Solutions"
+TITLE = config.get("title","Auto Build notification")
 ACTION = config.get("action","Building latest changes")
 IMPACT = config.get("impact")
 SCOPE = config.get("scope","staging")
@@ -69,6 +71,8 @@ if(STATUS_CODE == "success"):
 	STATUS = ":rocket:"
 if(ACTION is None or ACTION.strip() == ""):
 	ACTION = "Building latest changes"
+if(TITLE is None or TITLE.strip() == ""):
+	TITLE = "Auto Build notification"
 if(REPOSITORY_URL is not None):
 	regex = re.compile(r"(#\d+)\ ",re.MULTILINE | re.IGNORECASE)
 	for hashtag in re.findall(regex,ACTION):
@@ -151,7 +155,7 @@ payload = {
 			"type": "header",
 			"text": {
 				"type": "plain_text",
-				"text": ":rocket: Auto Build notification",
+				"text": ":rocket: {}".format(TITLE),
 				"emoji": True
 			}
 		},
