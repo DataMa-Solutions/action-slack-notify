@@ -1,5 +1,5 @@
 FROM --platform=$BUILDPLATFORM python:3.9-slim
-MAINTAINER django@datama.fr
+LABEL maintainer="anatole@datama.fr"
 
 LABEL "com.github.actions.icon"="bell"
 LABEL "com.github.actions.color"="green"
