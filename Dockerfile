@@ -11,4 +11,4 @@ RUN pip3 install requests
 COPY slack.py /slack
 RUN chmod +x /slack
 
-ENTRYPOINT ["/slack"]
+ENTRYPOINT ["python3", "/slack"]
