@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM python:3.9-slim
+FROM python:3.9-slim
 LABEL maintainer="anatole@datama.fr"
 
 LABEL "com.github.actions.icon"="bell"
